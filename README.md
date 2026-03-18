@@ -1,4 +1,4 @@
-# 📋 Kanban Board — Drag and Drop
+#  Kanban Board — Drag and Drop
 
 Projeto desenvolvido para a Prova P1 da disciplina de Desenvolvimento Web.
 Um quadro Kanban interativo com funcionalidade de arrastar e soltar cards entre colunas.
