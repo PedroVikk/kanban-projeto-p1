@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Kanban</title>
+  <!-- Conecta o arquivo de estilos CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Quadro principal do Kanban — contém as 3 colunas -->
+  <div class="board">
+
+    <!-- Coluna "A Fazer" — recebe cards via Drag and Drop -->
+    <div class="column" id="afazer" ondragover="allowDrop(event)" ondrop="drop(event)">
+      <h2>A Fazer</h2>
+
+      <!-- Card de exemplo — draggable="true" ativa a API de Drag and Drop do HTML5 -->
+      <div class="card" id="card1" draggable="true" ondragstart="drag(event)">
+        Minha primeira tarefa
+      </div>
+    </div>
+
+    <!-- Coluna "Fazendo" — recebe cards arrastados -->
+    <div class="column" id="fazendo" ondragover="allowDrop(event)" ondrop="drop(event)">
+      <h2>Fazendo</h2>
+    </div>
+
+    <!-- Coluna "Concluído" — recebe cards arrastados -->
+    <div class="column" id="concluido" ondragover="allowDrop(event)" ondrop="drop(event)">
+      <h2>Concluído</h2>
+    </div>
+
+  </div>
+
+  <!-- Conecta o arquivo JavaScript com a lógica de Drag and Drop -->
+  <script src="script.js"></script>
+</body>
+</html>
