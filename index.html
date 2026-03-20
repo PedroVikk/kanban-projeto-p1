@@ -13,12 +13,13 @@
 
     <!-- Coluna "A Fazer" — recebe cards via Drag and Drop -->
     <div class="column" id="afazer" ondragover="allowDrop(event)" ondrop="drop(event)">
-      <h2>A Fazer</h2>
 
-      <!-- Card de exemplo — draggable="true" ativa a API de Drag and Drop do HTML5 -->
-      <div class="card" id="card1" draggable="true" ondragstart="drag(event)">
-        Minha primeira tarefa
+      <div class="novo-card-container">
+        <input type="text" id="input-tarefa" placeholder="Digite a tarefa...">
+        <button onclick="adicionarTarefa()">+</button>
       </div>
+
+      <h2>A Fazer</h2>
     </div>
 
     <!-- Coluna "Fazendo" — recebe cards arrastados -->
