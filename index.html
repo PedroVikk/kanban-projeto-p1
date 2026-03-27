@@ -1,40 +1,74 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Kanban</title>
-  <!-- Conecta o arquivo de estilos CSS -->
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quadro Kanban</title>
+  <link rel="stylesheet" href="./CSS/style.css">
 </head>
 <body>
 
-  <!-- Quadro principal do Kanban — contém as 3 colunas -->
-  <div class="board">
-
-    <!-- Coluna "A Fazer" — recebe cards via Drag and Drop -->
-    <div class="column" id="afazer" ondragover="allowDrop(event)" ondrop="drop(event)">
-
-      <div class="novo-card-container">
-        <input type="text" id="input-tarefa" placeholder="Digite a tarefa...">
-        <button onclick="adicionarTarefa()">+</button>
-      </div>
-
-      <h2>A Fazer</h2>
-    </div>
-
-    <!-- Coluna "Fazendo" — recebe cards arrastados -->
-    <div class="column" id="fazendo" ondragover="allowDrop(event)" ondrop="drop(event)">
-      <h2>Fazendo</h2>
-    </div>
-
-    <!-- Coluna "Concluído" — recebe cards arrastados -->
-    <div class="column" id="concluido" ondragover="allowDrop(event)" ondrop="drop(event)">
-      <h2>Concluído</h2>
-    </div>
-
+  <header class="header">
+  <div class="header-content">
+    <h1>📌 Quadro Kanban</h1>
+    <p>Organize suas tarefas de forma simples e eficiente</p>
   </div>
+</header>
 
-  <!-- Conecta o arquivo JavaScript com a lógica de Drag and Drop -->
-  <script src="script.js"></script>
+<main class="main-container">
+  <section class="task-form-section">
+    <div class="task-form-card">
+      <h2>Nova Tarefa</h2>
+      <div class="task-form">
+        <input type="text" id="taskInput" placeholder="Digite uma nova tarefa...">
+        <button id="addTaskBtn">Adicionar</button>
+      </div>
+    </div>
+  </section>
+
+    <!-- Quadro Kanban -->
+    <section class="kanban-board">
+
+      <!-- Coluna A Fazer -->
+      <!-- A Fazer -->
+<div class="kanban-column">
+  <div class="column-top todo-top">
+    <div class="title-line">
+      <h2>A Fazer</h2>
+      <div class="line"></div>
+    </div>
+    <span class="badge" id="countTodo">0</span>
+  </div>
+  <div class="cards-area" id="todo"></div>
+</div>
+
+<!-- Fazendo -->
+<div class="kanban-column">
+  <div class="column-top doing-top">
+    <div class="title-line">
+      <h2>Fazendo</h2>
+      <div class="line"></div>
+    </div>
+    <span class="badge" id="countDoing">0</span>
+  </div>
+  <div class="cards-area" id="doing"></div>
+</div>
+
+<!-- Concluído -->
+<div class="kanban-column">
+  <div class="column-top done-top">
+    <div class="title-line">
+      <h2>Concluído</h2>
+      <div class="line"></div>
+    </div>
+    <span class="badge" id="countDone">0</span>
+  </div>
+  <div class="cards-area" id="done"></div>
+</div>
+
+    </section>
+  </main>
+
+  <script src="./JS/script.js"></script>
 </body>
 </html>
