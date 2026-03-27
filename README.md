@@ -32,6 +32,7 @@ Um quadro Kanban interativo com funcionalidade de arrastar e soltar cards entre 
 - HTML5 (API nativa de Drag and Drop)
 - CSS3 (Flexbox e Grid)
 - JavaScript puro
+- Touch Drag And Drop Mobile
 
 >  Nenhum framework foi utilizado neste projeto.
 
