@@ -1,4 +1,4 @@
-// ─── BADGES ────────────────────────────────────────────────────────────────
+//  BADGES 
 
 function atualizarBadges() {
   document.getElementById('countTodo').textContent  = document.getElementById('todo').querySelectorAll('.card').length;
@@ -6,8 +6,7 @@ function atualizarBadges() {
   document.getElementById('countDone').textContent  = document.getElementById('done').querySelectorAll('.card').length;
 }
 
-// ─── DRAG AND DROP (mouse/desktop) ─────────────────────────────────────────
-
+//  DRAG AND DROP 
 document.querySelectorAll('.cards-area').forEach(area => {
   area.addEventListener('dragover', (e) => {
     e.preventDefault();
@@ -30,7 +29,7 @@ document.querySelectorAll('.cards-area').forEach(area => {
   });
 });
 
-// ─── TOUCH DRAG AND DROP (mobile) ──────────────────────────────────────────
+//  TOUCH DRAG AND DROP versão mobile
 
 let touchGhost = null;
 let touchCard  = null;
@@ -103,7 +102,7 @@ function ativarTouchDrag(card) {
   });
 }
 
-// ─── CRIAÇÃO DE CARD ────────────────────────────────────────────────────────
+//  CRIAÇÃO DE CARD 
 
 function adicionarTarefa() {
   const input = document.getElementById('taskInput');
@@ -173,7 +172,7 @@ function adicionarTarefa() {
   atualizarBadges();
 }
 
-// ─── EVENTOS GLOBAIS ────────────────────────────────────────────────────────
+//  EVENTOS GLOBAIS 
 
 document.getElementById('addTaskBtn').addEventListener('click', adicionarTarefa);
 
