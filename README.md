@@ -20,10 +20,10 @@ Um quadro Kanban interativo com funcionalidade de arrastar e soltar cards entre 
 
 ##  Funcionalidades
 
-- ✅ Arrastar cards entre as colunas **A Fazer**, **Fazendo** e **Concluído**
-- ✅ Criar novos cards
-- ✅ Editar o texto do card com duplo clique
-- ✅ Design responsivo (funciona no celular e no computador)
+- Arrastar cards entre as colunas **A Fazer**, **Fazendo** e **Concluído**
+-  Criar novos cards
+-  Editar o texto do card com duplo clique
+-  Design responsivo (funciona no celular e no computador)
 
 ---
 
@@ -33,8 +33,6 @@ Um quadro Kanban interativo com funcionalidade de arrastar e soltar cards entre 
 - CSS3 (Flexbox e Grid)
 - JavaScript puro
 - Touch Drag And Drop Mobile
-
->  Nenhum framework foi utilizado neste projeto.
 
 ---
 
