@@ -1,44 +1,113 @@
-// Atualiza os badges de contagem de cada coluna
+// ─── BADGES ────────────────────────────────────────────────────────────────
+
 function atualizarBadges() {
   document.getElementById('countTodo').textContent  = document.getElementById('todo').querySelectorAll('.card').length;
   document.getElementById('countDoing').textContent = document.getElementById('doing').querySelectorAll('.card').length;
   document.getElementById('countDone').textContent  = document.getElementById('done').querySelectorAll('.card').length;
 }
 
-// Permite que a área receba um card arrastado
-function allowDrop(event) {
-  event.preventDefault();
-  event.currentTarget.classList.add('drag-over');
-}
+// ─── DRAG AND DROP (mouse/desktop) ─────────────────────────────────────────
 
-function removeDragOver(event) {
-  event.currentTarget.classList.remove('drag-over');
-}
-
-// Quando solta o card na coluna, move ele para lá
-function drop(event) {
-  event.preventDefault();
-  event.currentTarget.classList.remove('drag-over');
-  const cardId = event.dataTransfer.getData('cardId');
-  const card = document.getElementById(cardId);
-  if (card) {
-    event.currentTarget.appendChild(card);
-    atualizarBadges();
-  }
-}
-
-// Configura drag and drop nas áreas de cards
 document.querySelectorAll('.cards-area').forEach(area => {
-  area.addEventListener('dragover', allowDrop);
-  area.addEventListener('dragleave', removeDragOver);
-  area.addEventListener('drop', drop);
+  area.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    area.classList.add('drag-over');
+  });
+
+  area.addEventListener('dragleave', () => {
+    area.classList.remove('drag-over');
+  });
+
+  area.addEventListener('drop', (e) => {
+    e.preventDefault();
+    area.classList.remove('drag-over');
+    const cardId = e.dataTransfer.getData('cardId');
+    const card = document.getElementById(cardId);
+    if (card) {
+      area.appendChild(card);
+      atualizarBadges();
+    }
+  });
 });
 
-// Cria e adiciona um novo card na coluna "A Fazer"
+// ─── TOUCH DRAG AND DROP (mobile) ──────────────────────────────────────────
+
+let touchGhost = null;
+let touchCard  = null;
+let ghostOffsetX = 0;
+let ghostOffsetY = 0;
+
+function getCardArea(x, y) {
+  // Esconde o ghost temporariamente para pegar o elemento por baixo
+  if (touchGhost) touchGhost.style.display = 'none';
+  const el = document.elementFromPoint(x, y);
+  if (touchGhost) touchGhost.style.display = '';
+  if (!el) return null;
+  return el.closest('.cards-area');
+}
+
+function ativarTouchDrag(card) {
+  card.addEventListener('touchstart', (e) => {
+    // Ignora se veio do botão deletar
+    if (e.target.classList.contains('btn-deletar')) return;
+
+    touchCard = card;
+    const touch = e.touches[0];
+    const rect  = card.getBoundingClientRect();
+
+    ghostOffsetX = touch.clientX - rect.left;
+    ghostOffsetY = touch.clientY - rect.top;
+
+    // Cria clone ghost
+    touchGhost = card.cloneNode(true);
+    touchGhost.classList.add('touch-ghost');
+    touchGhost.style.width  = rect.width  + 'px';
+    touchGhost.style.left   = rect.left   + 'px';
+    touchGhost.style.top    = rect.top    + 'px';
+    document.body.appendChild(touchGhost);
+
+    card.classList.add('dragging');
+    e.preventDefault();
+  }, { passive: false });
+
+  card.addEventListener('touchmove', (e) => {
+    if (!touchGhost) return;
+    const touch = e.touches[0];
+    touchGhost.style.left = (touch.clientX - ghostOffsetX) + 'px';
+    touchGhost.style.top  = (touch.clientY - ghostOffsetY) + 'px';
+
+    // Destaca a área que está sob o dedo
+    document.querySelectorAll('.cards-area').forEach(a => a.classList.remove('drag-over'));
+    const area = getCardArea(touch.clientX, touch.clientY);
+    if (area) area.classList.add('drag-over');
+
+    e.preventDefault();
+  }, { passive: false });
+
+  card.addEventListener('touchend', (e) => {
+    if (!touchGhost || !touchCard) return;
+    const touch = e.changedTouches[0];
+
+    document.querySelectorAll('.cards-area').forEach(a => a.classList.remove('drag-over'));
+
+    const area = getCardArea(touch.clientX, touch.clientY);
+    if (area) {
+      area.appendChild(touchCard);
+      atualizarBadges();
+    }
+
+    touchGhost.remove();
+    touchGhost = null;
+    touchCard.classList.remove('dragging');
+    touchCard = null;
+  });
+}
+
+// ─── CRIAÇÃO DE CARD ────────────────────────────────────────────────────────
+
 function adicionarTarefa() {
   const input = document.getElementById('taskInput');
   const texto = input.value.trim();
-
   if (texto === '') return;
 
   const novoCard = document.createElement('div');
@@ -50,7 +119,7 @@ function adicionarTarefa() {
   spanTexto.innerText = texto;
 
   const btnDeletar = document.createElement('button');
-  btnDeletar.textContent = 'X';
+  btnDeletar.textContent = '✕';
   btnDeletar.classList.add('btn-deletar');
   btnDeletar.draggable = false;
   btnDeletar.onclick = () => {
@@ -60,23 +129,22 @@ function adicionarTarefa() {
     }
   };
 
-  novoCard.addEventListener('dragstart', (event) => {
-    event.dataTransfer.setData('cardId', novoCard.id);
+  // Drag mouse
+  novoCard.addEventListener('dragstart', (e) => {
+    e.dataTransfer.setData('cardId', novoCard.id);
     novoCard.classList.add('dragging');
   });
-
   novoCard.addEventListener('dragend', () => {
     novoCard.classList.remove('dragging');
   });
 
-  // Editar com duplo clique
+  // Editar com duplo clique / duplo toque
   novoCard.addEventListener('dblclick', () => {
     novoCard.contentEditable = true;
     novoCard.focus();
     novoCard.classList.add('editando');
   });
 
-  // Salva ao perder o foco
   novoCard.addEventListener('blur', () => {
     novoCard.contentEditable = false;
     novoCard.classList.remove('editando');
@@ -86,10 +154,9 @@ function adicionarTarefa() {
     }
   });
 
-  // Salva ao pressionar Enter
-  novoCard.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
+  novoCard.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
       novoCard.blur();
     }
   });
@@ -97,15 +164,19 @@ function adicionarTarefa() {
   novoCard.appendChild(spanTexto);
   novoCard.appendChild(btnDeletar);
 
+  // Ativa touch drag no card recém-criado
+  ativarTouchDrag(novoCard);
+
   document.getElementById('todo').appendChild(novoCard);
   input.value = '';
+  input.focus();
   atualizarBadges();
 }
 
-// Conecta o botão Adicionar
+// ─── EVENTOS GLOBAIS ────────────────────────────────────────────────────────
+
 document.getElementById('addTaskBtn').addEventListener('click', adicionarTarefa);
 
-// Permite adicionar com Enter no input
-document.getElementById('taskInput').addEventListener('keydown', (event) => {
-  if (event.key === 'Enter') adicionarTarefa();
+document.getElementById('taskInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') adicionarTarefa();
 });

@@ -22,7 +22,7 @@ body {
 }
 
 /*
-   HEADER MELHORADO
+   HEADER
 */
 .header {
   margin-bottom: 35px;
@@ -36,7 +36,7 @@ body {
 }
 
 .header-content h1 {
-  font-size: 3rem;
+  font-size: clamp(1.8rem, 5vw, 3rem);
   margin-bottom: 12px;
   font-weight: 800;
   letter-spacing: 0.5px;
@@ -45,7 +45,7 @@ body {
 }
 
 .header-content p {
-  font-size: 1.08rem;
+  font-size: clamp(0.9rem, 2.5vw, 1.08rem);
   color: #cbd5e1;
   font-weight: 400;
 }
@@ -56,15 +56,14 @@ body {
 .main-container {
   max-width: 1300px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 /*
-   FORMULÁRIO DE TAREFA MELHORADO
- */
-.task-form-section {
-  margin-bottom: 35px;
-}
-
+   FORMULÁRIO DE TAREFA
+*/
 .task-form-card {
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -76,22 +75,20 @@ body {
 
 .task-form-card h2 {
   margin-bottom: 18px;
-  font-size: 1.65rem;
+  font-size: clamp(1.2rem, 3vw, 1.65rem);
   font-weight: 700;
   color: #f8fafc;
 }
 
 .task-form {
   display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  align-items: center;
+  gap: 12px;
+  align-items: stretch;
 }
 
 .task-form input {
   flex: 1;
-  min-width: 250px;
-  padding: 17px 20px;
+  padding: 15px 20px;
   border: 2px solid transparent;
   border-radius: 16px;
   outline: none;
@@ -100,6 +97,7 @@ body {
   color: #0f172a;
   transition: 0.25s ease;
   box-shadow: inset 0 2px 6px rgba(0,0,0,0.08);
+  min-width: 0;
 }
 
 .task-form input:focus {
@@ -108,7 +106,7 @@ body {
 }
 
 .task-form button {
-  padding: 17px 28px;
+  padding: 15px 28px;
   border: none;
   border-radius: 16px;
   background: linear-gradient(135deg, #3b82f6, #2563eb);
@@ -118,6 +116,8 @@ body {
   cursor: pointer;
   transition: 0.25s ease;
   box-shadow: 0 10px 22px rgba(37, 99, 235, 0.35);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .task-form button:hover {
@@ -130,6 +130,16 @@ body {
 }
 
 /*
+   QUADRO KANBAN — Grid 3 colunas no desktop
+*/
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+/*
    COLUNAS
 */
 .kanban-column {
@@ -138,7 +148,7 @@ body {
   backdrop-filter: blur(12px);
   border-radius: 26px;
   padding: 20px;
-  min-height: 540px;
+  min-height: 400px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
@@ -157,67 +167,73 @@ body {
   margin-bottom: 18px;
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
 }
 
-.column-top h2 {
-  font-size: 1.35rem;
+.title-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.title-line h2 {
+  font-size: clamp(1rem, 2vw, 1.35rem);
   font-weight: 700;
+  white-space: nowrap;
+}
+
+.line {
+  flex: 1;
+  height: 2px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
 }
 
 /* Cores dos títulos */
-.todo-top h2 {
-  color: #facc15;
-}
-
-.doing-top h2 {
-  color: #38bdf8;
-}
-
-.done-top h2 {
-  color: #4ade80;
-}
+.todo-top h2  { color: #facc15; }
+.doing-top h2 { color: #38bdf8; }
+.done-top h2  { color: #4ade80; }
 
 /* Badge contador */
 .badge {
   background: rgba(255,255,255,0.12);
-  padding: 7px 13px;
+  padding: 6px 12px;
   border-radius: 999px;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: #fff;
-  min-width: 35px;
+  min-width: 32px;
   text-align: center;
+  flex-shrink: 0;
+  margin-left: 10px;
 }
 
 /*
-   ÁREA DOS CARDS
+   ÁREA DOS CARDS — Flexbox coluna
 */
 .cards-area {
   flex: 1;
-  min-height: 250px;
+  min-height: 200px;
   border-radius: 18px;
-  padding: 10px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  transition: 0.3s ease;
+  gap: 12px;
+  transition: background 0.2s ease, border 0.2s ease;
 }
 
-/* visual vazio mais elegante */
 .cards-area:empty::before {
   content: "Arraste ou adicione tarefas aqui";
-  color: rgba(255,255,255,0.25);
-  font-size: 0.95rem;
+  color: rgba(255,255,255,0.22);
+  font-size: 0.9rem;
   text-align: center;
   margin-top: 40px;
   display: block;
+  pointer-events: none;
 }
 
-.cards-area:hover {
-  background: rgba(255,255,255,0.03);
-}
-
-/* Área destacada ao arrastar */
 .cards-area.drag-over {
   background: rgba(59, 130, 246, 0.14);
   border: 2px dashed #60a5fa;
@@ -229,19 +245,30 @@ body {
 .card {
   background: linear-gradient(135deg, #ffffff, #f1f5f9);
   color: #0f172a;
-  padding: 16px;
-  border-radius: 18px;
-  font-size: 1rem;
+  padding: 14px 14px 14px 16px;
+  border-radius: 16px;
+  font-size: 0.97rem;
   line-height: 1.5;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   cursor: grab;
-  transition: 0.25s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   word-break: break-word;
   border-left: 5px solid #3b82f6;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  touch-action: none;
+}
+
+.card span {
+  flex: 1;
+  min-width: 0;
 }
 
 .card:hover {
-  transform: translateY(-4px) scale(1.01);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
 }
 
 .card:active {
@@ -249,94 +276,92 @@ body {
 }
 
 .card.dragging {
-  opacity: 0.55;
+  opacity: 0.45;
   transform: scale(1.02);
 }
 
+/* Botão deletar dentro do card */
+.btn-deletar {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+  line-height: 1;
+}
 
-.kanban-board {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+.btn-deletar:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+/* Clone ghost do touch drag */
+.touch-ghost {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.85;
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+  transition: none;
 }
 
 /*
    RESPONSIVIDADE
 */
 
-/* Tablet */
-@media (max-width: 1024px) {
+/* Tablet — 2 colunas */
+@media (max-width: 900px) {
   .kanban-board {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
 
-  .kanban-column {
-    min-height: 400px;
-    padding: 16px;
-  }
-
-  .column-top h2 {
-    font-size: 1rem;
-  }
-
-  .badge {
-    font-size: 0.85rem;
-    padding: 6px 10px;
+  /* Terceira coluna ocupa linha inteira */
+  .kanban-column:last-child {
+    grid-column: 1 / -1;
   }
 }
 
-/* Celular */
+/* Mobile — 1 coluna empilhada */
 @media (max-width: 600px) {
   body {
     padding: 12px;
   }
 
-  .header-content h1 {
-    font-size: 2rem;
-  }
-
-  .header-content p {
-    font-size: 0.92rem;
+  .main-container {
+    gap: 20px;
   }
 
   .task-form-card {
-    padding: 16px;
-  }
-
-  .task-form {
-    flex-direction: column;
-  }
-
-  .task-form button {
-    width: 100%;
+    padding: 18px;
   }
 
   .kanban-board {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    overflow-x: auto;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* Remove o estilo especial da última coluna no mobile */
+  .kanban-column:last-child {
+    grid-column: auto;
   }
 
   .kanban-column {
-    min-width: 280px;
-    min-height: 380px;
-    padding: 14px;
-    border-radius: 18px;
-    flex-shrink: 0;
+    min-height: 200px;
+    padding: 16px;
+    border-radius: 20px;
   }
 
-  .column-top h2 {
-    font-size: 0.95rem;
+  .kanban-column:hover {
+    transform: none;
   }
 
-  .badge {
-    font-size: 0.8rem;
-    padding: 5px 9px;
-  }
-
-  .card {
-    font-size: 0.9rem;
-    padding: 12px;
+  .task-form button {
+    padding: 15px 20px;
   }
 }
